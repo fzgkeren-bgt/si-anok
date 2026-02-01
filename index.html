@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Happy Valentine</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #b7dff0, #eaf6fb);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ORNAMEN SOFT */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  width: 260px;
+  height: 260px;
+  background: rgba(255,255,255,0.35);
+  border-radius: 50%;
+  filter: blur(45px);
+}
+body::before { top: -90px; left: -90px; }
+body::after { bottom: -90px; right: -90px; }
+
+.container {
+  width: 90%;
+  max-width: 420px;
+  position: relative;
+}
+
+.card {
+  display: none;
+  background: white;
+  padding: 32px;
+  border-radius: 24px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+  text-align: center;
+  animation: appear 0.8s ease;
+}
+
+.card.active {
+  display: block;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+h1 {
+  color: #2f6f86;
+  margin-bottom: 14px;
+}
+
+p {
+  color: #444;
+  line-height: 1.8;
+  font-size: 15px;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+p.show {
+  opacity: 1;
+}
+
+button {
+  margin-top: 26px;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 32px;
+  background: linear-gradient(135deg, #9ecfe0, #bfe6f2);
+  color: #245d6b;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+}
+
+/* FOTO */
+.photos {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.photos img {
+  width: 50%;
+  border-radius: 16px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.15);
+}
+
+/* CONFETTI */
+.confetti {
+  position: fixed;
+  top: -10px;
+  width: 8px;
+  height: 8px;
+  opacity: 0.9;
+  animation: fall linear forwards;
+  z-index: 0;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(120vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIK -->
+<audio id="bgm" autoplay loop>
+  <source src="musik.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+
+<!-- PAGE 1 -->
+<div class="card active" id="page1">
+  <h1>Happy Valentine ðŸŒŠ</h1>
+  <p>Hai Wiam.</p>
+  <p>Aku nggak tau ini bakal kamu buka kapan,</p>
+  <p>tapi semoga pas kamu lihat,</p>
+  <p>harimu lagi cukup tenang.</p>
+  <button onclick="nextPage(2)">Lanjut</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="card" id="page2">
+  <h1>Momen Kecil Kita ðŸ“¸</h1>
+
+  <div class="photos">
+    <img src="foto1.jpg">
+    <img src="foto2.jpg">
+  </div>
+
+  <p>Nggak semua momen harus direncanain.</p>
+  <p>Ada yang datang biasa aja,</p>
+  <p>tapi entah kenapa pengin diingat.</p>
+  <p>Dan aku seneng pernah ada di situ.</p>
+
+  <button onclick="nextPage(3)">Lanjut</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="card" id="page3">
+  <h1>Penutup</h1>
+  <p>Aku harap ke depannya,</p>
+  <p>kamu selalu dikelilingi hal-hal baik.</p>
+  <p>Orang-orang tulus,</p>
+  <p>dan hari-hari yang bikin kamu nyaman.</p>
+  <p>Happy Valentine ðŸ¤</p>
+  <p style="font-size:13px;color:#777;">â€” dari aku</p>
+</div>
+
+</div>
+
+<script>
+function nextPage(n) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+  const page = document.getElementById('page' + n);
+  page.classList.add('active');
+  revealText(page);
+
+  // pastiin musik nyala (buat HP)
+  document.getElementById("bgm").play().catch(()=>{});
+}
+
+function revealText(page) {
+  const ps = page.querySelectorAll('p');
+  ps.forEach((p, i) => {
+    p.classList.remove('show');
+    setTimeout(() => {
+      p.classList.add('show');
+    }, i * 700);
+  });
+}
+
+window.onload = function () {
+  revealText(document.getElementById('page1'));
+
+  for (let i = 0; i < 120; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.backgroundColor =
+      ["#9ecfe0", "#bfe6f2", "#eaf6fb"][Math.floor(Math.random() * 3)];
+    c.style.animationDuration = (Math.random() * 4 + 9) + "s";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 13000);
+  }
+};
+</script>
+
+</body>
+</index.html>
